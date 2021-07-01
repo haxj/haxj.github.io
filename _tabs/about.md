@@ -4,5 +4,4 @@ icon: fas fa-info
 order: 4
 ---
 
-
-> **Note**: Add Markdown syntax content to file `_tabs/about.md` and it will show up on this page.
+I'm a software engineer. You can contact me on [Twitter](https://twitter.com/_haxj).
