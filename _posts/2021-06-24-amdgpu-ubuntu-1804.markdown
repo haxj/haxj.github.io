@@ -1,0 +1,179 @@
+---
+layout: post
+title:  "Getting a new AMD GPU to work on Ubuntu 18.04"
+date:   2021-06-24 21:36:20 +0700
+categories: [blog, technical]
+tags: [linux, kernel, gpu, amd, bugs, ubuntu]
+---
+
+![amd-chip](/assets/img/amd_chip.png)
+*Image by u/RenderBender_Uranus*
+
+{% include toc_kramdown.html %}
+
+## TL;DR
+To get newer AMD GPU to work on Ubuntu 18.04:
+- Use a newer kernel version (I use 5.8)
+- Enable early KMS start for `amdgpu`
+
+## Full story
+### Problems
+Today I got to install Ubuntu 18.04 on a brand new laptop. Why not just use Ubuntu 20.04, you might ask, but that's a story for another day. After installing Ubuntu Server 18.04 and i3 without major problems, I notice some strange problems with the display. This is when I start to go down the rabbit hole of GPU drivers on Linux.
+
+Some problems I encountered:
+- `brightnessctl` doesn't work. No errors but doesn't change brightness.
+- `compton` compositor with glx backend freezes the session.
+
+### Diagnose the problems
+Ok, the problems suggest something's wrong with the graphical system. Let's check the system:
+
+```console
+$ lspci -nn | grep -E -- 'VGA|Display'
+03:00.0 VGA compatible controller [0300]: Advanced Micro Devices, Inc. [AMD/ATI] Device [1002:1636] (rev d1)
+```
+
+We have an AMD GPU here. The device ID is 1636.
+
+```console
+$ xrandr --listproviders
+Providers: number : 0
+```
+
+Oops. On a normal system, number should be 1 or more.
+
+```console
+$ glxinfo | grep OpenGL
+OpenGL vendor string: VMware, Inc.
+OpenGL renderer string: llvmpipe (LLVM 10.0.0, 128 bits)
+...
+```
+
+OpenGL vendor string here is VMware (strange, right?), and OpenGL renderer string is `llvmpipe`. `llvmpipe` is a software renderer, meaning GPU is not being used to rendering.
+
+Let check if driver for the GPU is loaded.
+
+```console
+$ lspci -nnk -d 1002:1636 | grep Kernel
+<nothing>
+```
+
+So no driver is loaded to control this GPU. As this AMD chip is released in 2020, the driver should be amdgpu. Let's check if amdgpu support this device.
+
+```console
+$ modinfo amdgpu | grep 1636  # 1636 is device ID
+<nothing>
+```
+
+So amdgpu does not support this GPU. Wait, what kernel are we using?
+
+```console
+$ uname -r
+4.15.0-147-generic
+```
+
+That sounds pretty old! Indeed, a quick search on Wikipedia shows that it has reached EOL since 2018. It's likely that this kernel does not support a 2020 GPU. We need a newer kernel.
+
+Basically, I encountered this bug: [FBDEV in use with amdgpu and there is no /dev/dri/card0 (hardware is AMD/ATI Renoir [1002:1636])](https://bugs.launchpad.net/ubuntu/+source/xorg-server/+bug/1906601). Although the bug is marked as `Fix Released`, it does not provide any workaround for Ubuntu 18.04. So I have to find my own.
+
+### Solutions, part 1: Install newer kernel and firmware
+To install a newer Linux kernel on Ubuntu, we have 3 main choices, in order of increasing difficulty:
+- Install the Ubuntu HWE kernel
+- Install a kernel from Ubuntu Mainline Kernel PPA
+- Build and install your own kernel manually
+
+(1) is easiest, but doesn't work. Maybe the kernel isn't new enough (As of 06/2021, HWE kernel of Ubuntu 18.04 is 5.4).
+
+Let's install kernel 5.8 with (2). Go to <https://kernel.ubuntu.com/~kernel-ppa/mainline/v5.8.18/amd64/>. We see the following files:
+
+```
+linux-headers-5.8.18-050818-generic_5.8.18-050818.202011011237_amd64.deb
+linux-headers-5.8.18-050818-lowlatency_5.8.18-050818.202011011237_amd64.deb
+linux-headers-5.8.18-050818_5.8.18-050818.202011011237_all.deb
+linux-image-unsigned-5.8.18-050818-generic_5.8.18-050818.202011011237_amd64.deb
+linux-image-unsigned-5.8.18-050818-lowlatency_5.8.18-050818.202011011237_amd64.deb
+linux-modules-5.8.18-050818-generic_5.8.18-050818.202011011237_amd64.deb
+linux-modules-5.8.18-050818-lowlatency_5.8.18-050818.202011011237_amd64.deb
+```
+
+We don't need the 3 deb files with "lowlatency" in the file name. Downloads the other 4 deb files to a new folder (linux-v5.8.18), then install all of them:
+
+```console
+$ cd <path>/linux-v5.8.18
+$ sudo dpkg -i *.deb
+<some output>
+```
+
+To support newer GPUs, we also need the new firmwares.
+
+```console
+$ git clone https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git
+<some output>
+$ cd linux-firmware
+$ cp -r /lib/firmware/amdgpu/ ~/backup_amdgpu  # Backup original firmwares
+$ sudo cp amdgpu/* /lib/firmware/amdgpu/
+```
+
+At this point, you may think things should work now. However, if we reboot now, we will stuck at the following error:
+
+```console
+fb0: switching to amdgpudrmfb from efi vga
+```
+
+If you don't care about debugging the problems, don't reboot and skip to the solution section.
+
+### Diagnose again
+To diagnose the problem, we need to boot to the newer kernel. A quick search suggests we have to pass the option `nomodeset` to kernel at boot.
+
+After booting into the graphical system, the problem still persist. Let's check if this version of `amdgpu` support our GPU:
+
+```console
+$ modinfo amdgpu | grep 1636
+alias:          pci:v00001002d00001636sv*sd*bc*sc*i*
+```
+
+Yes, the amdgpu driver does indeed support our GPU. So why doesn't it work?
+
+A very long Googling process lead me to check the xorg log file:
+
+```console
+$ less /var/log/Xorg.0.log
+...
+[   4.988] (II) VESA: driver for VESA chipsets: vesa 
+[   4.988] (EE) open /dev/dri/card0: No such file or directory 
+[   4.988] (WW) Falling back to old probe method for modesetting 
+[   4.988] (EE) open /dev/dri/card0: No such file or directory 
+[   4.988] (II) Loading sub module "fbdevhw" 
+[   4.988] (II) LoadModule: "fbdevhw"
+...
+```
+
+So, more errors...
+
+### Solutions, part 2: Enable early KMS for amdgpu
+After a very long searching and trying many things without success, I found this [post](https://bbs.archlinux.org/viewtopic.php?id=260576) in which someone suggests enabling early KMS start for `amdgpu`. I'm not even sure but tried anyway and surprisingly, it works!
+
+First, lets add `amdgpu` to `/etc/initramfs-tools/modules`. Then update initramfs:
+
+```console
+$ sudo update-initramfs -u
+<some output>
+```
+
+Then reboot. Let's check again:
+
+```console
+$ glxinfo | grep OpenGL
+OpenGL vendor string: X.Org
+OpenGL renderer string: AMD RENOIR (DRM 3.38.0, 5.8.18-050818-generic, LLVM 10.0.0)
+...
+```
+
+And voila! Now OpenGL renderer is not llvmpipe but AMD RENOIR, meaning the GPU is being used for rendering. Let's check `xrandr`:
+
+```console
+$ xrandr --listproviders 
+Providers: number : 1
+Provider 0: id: 0x57 cap: 0x9, Source Output, Sink Offload crtcs: 4 outputs: 4 associated providers: 0 name:Unknown AMD Radeon GPU @ pci:0000:03:00.0
+```
+
+So all good. Now we can use `brightnessctl` and `compton` without problems.
