@@ -1,8 +1,8 @@
 /*
   The common styles
 */
-// haxj
-// @import url('https://fonts.googleapis.com/css2?family=Lato&family=Source+Sans+Pro:wght@400;600;900&display=swap');
+/* haxj */
+/* @import url('https://fonts.googleapis.com/css2?family=Lato&family=Source+Sans+Pro:wght@400;600;900&display=swap'); */
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans');
 
 @mixin mode-toggle($dark-mode: false) {
@@ -23,15 +23,17 @@
 
 }
 
-// haxj
-// html:not([mode]),
-// html[mode=light] {
-//   @include mode-toggle();
-// }
+/* haxj */
+/*
+html:not([mode]),
+html[mode=light] {
+  @include mode-toggle();
+}
 
-// html[mode=dark] {
-//   @include mode-toggle(true);
-// }
+html[mode=dark] {
+  @include mode-toggle(true);
+}
+*/
 
 html[mode=light] {
   @include mode-toggle();
@@ -62,8 +64,8 @@ body {
   background: var(--body-bg);
   color: var(--text-color);
   -webkit-font-smoothing: antialiased;
-  // haxj
-  // font-family: 'Source Sans Pro', 'Microsoft Yahei', sans-serif;
+  /* haxj */
+  /* font-family: 'Source Sans Pro', 'Microsoft Yahei', sans-serif; */
   font-family: 'Open Sans', 'Arial', sans-serif;
 }
 
@@ -72,8 +74,8 @@ body {
 h1 {
   @extend %heading;
 
-  // haxj
-  // font-size: 1.8rem;
+  /* haxj */
+  /* font-size: 1.8rem; */
   font-size: 2.5rem;
 }
 
@@ -82,8 +84,8 @@ h2 {
   @extend %section;
   @extend %anchor;
 
-  // haxj
-  // font-size: 1.4rem;
+  /* haxj */
+  /* font-size: 1.4rem; */
   font-size: 1.8rem;
 }
 
@@ -92,8 +94,8 @@ h3 {
   @extend %section;
   @extend %anchor;
 
-  // haxj
-  // font-size: 1.25rem;
+  /* haxj */
+  /* font-size: 1.25rem; */
   font-size: 1.4rem;
 }
 
@@ -378,8 +380,8 @@ footer {
 
 .post-content {
   font-size: 1.08rem;
-  // haxj
-  // line-height: 1.8;
+  /* haxj */
+  /* line-height: 1.8; */
   line-height: 1.7;
   margin-top: 2rem;
   overflow-wrap: break-word;
@@ -429,8 +431,8 @@ footer {
       + em {
         display: block;
         text-align: center;
-        // haxj
-        // font-style: normal;
+        /* haxj */
+        /* font-style: normal; */
         font-size: 80%;
         padding: 0;
         color: #6d6c6c;
@@ -1119,7 +1121,7 @@ $sidebar-display: "sidebar-display";
       margin-top: 2.2rem;
       font-size: 1.55rem;
     }
-    // haxj
+    /* haxj */
     h2 {
       font-size: 1.35rem;
     }
@@ -1462,8 +1464,8 @@ $sidebar-display: "sidebar-display";
   }
 
   .post-content {
-    // haxj
-    // font-size: 1.03rem;
+    /* haxj */
+    /* font-size: 1.03rem; */
     font-size: 1.1rem;
   }
 
@@ -1711,7 +1713,7 @@ $sidebar-display: "sidebar-display";
   }
 }
 
-// haxj
+/* haxj */
 img + em {
 
 }

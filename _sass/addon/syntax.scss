@@ -5,15 +5,17 @@
 @import "colors/light-syntax";
 @import "colors/dark-syntax";
 
-// haxj
-// html:not([mode]),
-// html[mode=light] {
-//   @include light-syntax;
-// }
+/* haxj */
+/*
+html:not([mode]),
+html[mode=light] {
+  @include light-syntax;
+}
 
-// html[mode=dark] {
-//   @include dark-syntax;
-// }
+html[mode=dark] {
+  @include dark-syntax;
+}
+*/
 
 html[mode=light] {
   @include light-syntax;
@@ -49,8 +51,8 @@ html[mode=dark] {
   padding: 1.5rem;
 }
 
-// haxj
-// $code-font-size: 0.85rem;
+/* haxj */
+/* $code-font-size: 0.85rem; */
 $code-font-size: .97rem;
 
 div > pre {

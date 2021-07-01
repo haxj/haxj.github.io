@@ -7,8 +7,8 @@
 %heading {
   color: var(--heading-color);
   font-weight: 400;
-  // haxj
-  // font-family: 'Lato', 'Microsoft Yahei', sans-serif;
+  /* haxj */
+  /* font-family: 'Lato', 'Microsoft Yahei', sans-serif; */
   font-family: 'Open Sans', 'Arial', sans-serif;
 }
 
@@ -97,8 +97,8 @@
 }
 
 @mixin panel-label {
-  // haxj
-  // @include label(inherit);
+  /* haxj */
+  /* @include label(inherit); */
   @include label(1.2rem);
 
   display: block;
