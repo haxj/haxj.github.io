@@ -23,7 +23,7 @@ description: >-                        # used by seo meta and the atom feed
   Notes and blogs of a software engineer. Subjects include computer network, Linux, kernel, embedded, FPGA.
 
 # fill in the protocol & hostname for your site, e.g., 'https://username.github.io'
-url: 'haxj.github.io'
+url: 'https://haxj.github.io'
 
 github:
   username: haxj             # change to your github username
