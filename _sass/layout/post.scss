@@ -152,6 +152,8 @@
 }
 
 #toc li > a {
+  // haxj
+  font-size: .85rem;
   line-height: 1rem;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
@@ -353,4 +355,9 @@
     margin-left: -.5rem;
     margin-right: -.5rem;
   }
+}
+
+// haxj
+#toc-kramdown li {
+  // line-height: 1.1rem;
 }

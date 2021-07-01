@@ -1,7 +1,9 @@
 /*
   The common styles
 */
-@import url('https://fonts.googleapis.com/css2?family=Lato&family=Source+Sans+Pro:wght@400;600;900&display=swap');
+// haxj
+// @import url('https://fonts.googleapis.com/css2?family=Lato&family=Source+Sans+Pro:wght@400;600;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans');
 
 @mixin mode-toggle($dark-mode: false) {
   @if $dark-mode {
@@ -21,11 +23,21 @@
 
 }
 
-html:not([mode]),
+// haxj
+// html:not([mode]),
+// html[mode=light] {
+//   @include mode-toggle();
+// }
+
+// html[mode=dark] {
+//   @include mode-toggle(true);
+// }
+
 html[mode=light] {
   @include mode-toggle();
 }
 
+html:not([mode]),
 html[mode=dark] {
   @include mode-toggle(true);
 }
@@ -50,7 +62,9 @@ body {
   background: var(--body-bg);
   color: var(--text-color);
   -webkit-font-smoothing: antialiased;
-  font-family: 'Source Sans Pro', 'Microsoft Yahei', sans-serif;
+  // haxj
+  // font-family: 'Source Sans Pro', 'Microsoft Yahei', sans-serif;
+  font-family: 'Open Sans', 'Arial', sans-serif;
 }
 
 /* --- Typography --- */
@@ -58,7 +72,9 @@ body {
 h1 {
   @extend %heading;
 
-  font-size: 1.8rem;
+  // haxj
+  // font-size: 1.8rem;
+  font-size: 2.5rem;
 }
 
 h2 {
@@ -66,7 +82,9 @@ h2 {
   @extend %section;
   @extend %anchor;
 
-  font-size: 1.4rem;
+  // haxj
+  // font-size: 1.4rem;
+  font-size: 1.8rem;
 }
 
 h3 {
@@ -74,7 +92,9 @@ h3 {
   @extend %section;
   @extend %anchor;
 
-  font-size: 1.25rem;
+  // haxj
+  // font-size: 1.25rem;
+  font-size: 1.4rem;
 }
 
 h4 {
@@ -107,7 +127,6 @@ a {
 
 img {
   max-width: 100%;
-  height: auto;
 }
 
 blockquote {
@@ -359,7 +378,9 @@ footer {
 
 .post-content {
   font-size: 1.08rem;
-  line-height: 1.8;
+  // haxj
+  // line-height: 1.8;
+  line-height: 1.7;
   margin-top: 2rem;
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -408,7 +429,8 @@ footer {
       + em {
         display: block;
         text-align: center;
-        font-style: normal;
+        // haxj
+        // font-style: normal;
         font-size: 80%;
         padding: 0;
         color: #6d6c6c;
@@ -1097,6 +1119,13 @@ $sidebar-display: "sidebar-display";
       margin-top: 2.2rem;
       font-size: 1.55rem;
     }
+    // haxj
+    h2 {
+      font-size: 1.35rem;
+    }
+    h3 {
+      font-size: 1.2rem;
+    }
   }
 
   #avatar > a {
@@ -1433,7 +1462,9 @@ $sidebar-display: "sidebar-display";
   }
 
   .post-content {
-    font-size: 1.03rem;
+    // haxj
+    // font-size: 1.03rem;
+    font-size: 1.1rem;
   }
 
   footer > div.d-felx {
@@ -1678,4 +1709,9 @@ $sidebar-display: "sidebar-display";
   #panel-wrapper {
     margin-left: 41px;
   }
+}
+
+// haxj
+img + em {
+
 }

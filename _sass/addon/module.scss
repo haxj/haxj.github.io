@@ -7,7 +7,9 @@
 %heading {
   color: var(--heading-color);
   font-weight: 400;
-  font-family: 'Lato', 'Microsoft Yahei', sans-serif;
+  // haxj
+  // font-family: 'Lato', 'Microsoft Yahei', sans-serif;
+  font-family: 'Open Sans', 'Arial', sans-serif;
 }
 
 %tag-hover {
@@ -95,7 +97,9 @@
 }
 
 @mixin panel-label {
-  @include label(inherit);
+  // haxj
+  // @include label(inherit);
+  @include label(1.2rem);
 
   display: block;
   line-height: 1.2;
