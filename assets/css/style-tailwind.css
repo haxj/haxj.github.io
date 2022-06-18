@@ -1,0 +1,29 @@
+/* @tailwind base; */
+
+.tw-m-auto {
+  margin: auto
+}
+
+.tw--ml-5 {
+  margin-left: -1.25rem
+}
+
+.tw--ml-10 {
+  margin-left: -2.5rem
+}
+
+.tw-w-fit {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content
+}
+
+.tw-overflow-x-auto {
+  overflow-x: auto
+}
+
+@media (min-width: 1024px) {
+  .lg\:tw-overflow-x-visible {
+    overflow-x: visible
+  }
+}

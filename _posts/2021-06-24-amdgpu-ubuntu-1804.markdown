@@ -11,14 +11,17 @@ tags: [linux, kernel, gpu, amd, bugs, ubuntu]
 
 {% include toc_kramdown.html %}
 
-## TL;DR
-To get newer AMD GPU to work on Ubuntu 18.04:
-- Use a newer kernel version (I use 5.8)
+## Summary
+Today I got to install Ubuntu 18.04 on a brand new laptop, which features a 2020 AMD Renoir inside. The OS and GPU doesn't like to work with each other, so I have to find some way to fix that.
+
+### TL;DR
+To get newer AMD GPU (AMD Renoir, in this particular case) to work on Ubuntu 18.04:
+- Use a newer kernel version (I tested with 5.8, other versions *may* also work)
 - Enable early KMS start for `amdgpu`
 
 ## Full story
 ### Problems
-Today I got to install Ubuntu 18.04 on a brand new laptop. Why not just use Ubuntu 20.04, you might ask, but that's a story for another day. After installing Ubuntu Server 18.04 and i3 without major problems, I notice some strange problems with the display. This is when I start to go down the rabbit hole of GPU drivers on Linux.
+Why not just use Ubuntu 20.04, you might ask, but that's a story for another day. After installing Ubuntu Server 18.04 and i3 without major problems, I notice some strange problems with the display. This is when I start to go down the rabbit hole of GPU drivers on Linux.
 
 Some problems I encountered:
 - `brightnessctl` doesn't work. No errors but doesn't change brightness.
@@ -177,3 +180,8 @@ Provider 0: id: 0x57 cap: 0x9, Source Output, Sink Offload crtcs: 4 outputs: 4 a
 ```
 
 So all good. Now we can use `brightnessctl` and `compton` without problems.
+
+
+**Update on 2021/07/04:**
+
+There are many details about Linux graphics system that I do not understand very well. I find another detailed article which address similar problem with Ubuntu 16.04: [Using the newer AMDGPU driver on Ubuntu 16.04LTS](https://www.linkedin.com/pulse/using-newer-amdgpu-driver-ubuntu-1604lts-dennis-mungai)

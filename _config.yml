@@ -20,7 +20,7 @@ title: haxj's blog                          # the main title
 tagline: Notes of a software engineer    # it will display as the sub-title
 
 description: >-                        # used by seo meta and the atom feed
-  Notes and blogs of a software engineer. Subjects include computer network, Linux, kernel, embedded, FPGA.
+  Notes and blogs of a software engineer. Subjects include Linux, embedded systems, FPGA, data visualization, etc.
 
 # fill in the protocol & hostname for your site, e.g., 'https://username.github.io'
 url: 'https://haxj.github.io'

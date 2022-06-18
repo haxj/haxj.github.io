@@ -1467,6 +1467,7 @@ $sidebar-display: "sidebar-display";
     /* haxj */
     /* font-size: 1.03rem; */
     font-size: 1.1rem;
+    text-align: justify;
   }
 
   footer > div.d-felx {
@@ -1549,7 +1550,9 @@ $sidebar-display: "sidebar-display";
       }
 
       %profile-ml {
-        margin-left: 4.5rem;
+        // haxj
+        // margin-left: 4.5rem;
+        margin-left: 3.5rem;
       }
 
       #avatar {
@@ -1583,7 +1586,9 @@ $sidebar-display: "sidebar-display";
     } // .profile-wrapper (min-width: 1650px)
 
     ul {
-      padding-left: 2.5rem;
+      // haxj
+      // padding-left: 2.5rem;
+      padding-left: 1.5rem;
 
       > li:last-child {
         > a {
@@ -1619,7 +1624,9 @@ $sidebar-display: "sidebar-display";
     }
 
     .sidebar-bottom {
-      padding-left: 3.5rem;
+      // haxj
+      // padding-left: 3.5rem;
+      padding-left: 2.5rem;
       width: 100%;
 
       &.justify-content-center {
