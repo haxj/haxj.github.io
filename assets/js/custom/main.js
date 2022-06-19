@@ -15,6 +15,7 @@
 //     width_main = width - width_legend - padding_x,
 //     height = height_main + height_mini + padding_y - margin.top - margin.bottom;
 
+
 const funds_info = [
     { 'name': 'VNINDEX',     'type': 'Index',                                    },
     { 'name': 'VN30',        'type': 'Index',                                    },
@@ -127,23 +128,74 @@ const zoom_periods = [ "1M", "3M", "6M", "YTD", "1Y", "3Y", "5Y", "All" ];
 
 const r_tooltips_item = 4;
 
-let mode = "light";
-mode = "dark";
-// const color_background = mode === "dark" ? "#222222" : "#ffffff";
-const color_background = mode === "dark" ? "#1b1b1e" : "#ffffff";
-const color_text = mode === "dark" ? "#fff" : "#000";
-const color_button = mode === "dark" ? color_background : "#ECECEC";
-
 //Read the data
 let load_data = d3.csv("/assets/data/resampled/W-MON/combine_resampled_data.csv", function(data) {
     const timeParse = d3.timeParse("%Y-%m-%d");
     data.date = timeParse(data.Date);
     return data;
 });
-load_data.then(data => draw_chart(data, "#chart_navps", "navps"));
 load_data.then(data => draw_chart(data, "#chart_cr", "cr"));
 
 function draw_chart(data, dom_id, chart_name) {
+    // Dark/light mode color palette
+    let colors = {
+        // background:          ["#222222", "#ffffff"],
+        background:          ["#1b1b1e", "#ffffff"],
+        text:                ["#fff", "#000"],
+        button:              ["#1b1b1e", "#ECECEC"],
+        button_hover:        ["#555", "#DADADA"],
+        button_border:       ["#555", null],
+        // selected_range_text: ["#8ab4f8", "#00559e"],
+        selected_range_text: ["#fff", "#00559e"],
+    };
+
+    // Handle dark/light mode
+    let light_mode = toggle.modeStatus === ModeToggle.LIGHT_MODE ? 1 : 0;
+
+    document.getElementById("mode-toggle-wrapper").addEventListener('click', function() {
+        light_mode = +!light_mode;
+
+        svg.style("background-color", colors.background[light_mode])
+            .style("color", colors.text[light_mode]);
+
+        top_line.select("text")
+            .attr("fill", colors.text[light_mode]);
+
+        zoom_buttons
+            .on("mouseover", function(e) {
+                d3.select(this).select("rect")
+                    .attr("fill", colors.button_hover[light_mode]);
+            })
+            .on("mouseleave", function(e) {
+                d3.select(this).select("rect")
+                    .attr("fill", colors.button[light_mode]);
+            });
+
+        zoom_buttons.select("rect")
+            .attr("stroke", colors.button_border[light_mode])
+            .attr("fill", colors.button[light_mode]);
+
+        zoom_buttons.select("text")
+            .attr("fill", colors.text[light_mode]);
+
+        selected_range_text
+            .attr("fill", colors.selected_range_text[light_mode]);
+
+        g_legends.selectAll("text")
+            .attr("fill", colors.text[light_mode]);
+
+        g_legend_items.select("circle")
+            .attr("stroke", d => {
+                let i = selected_funds.indexOf(d.name);
+                return (i < 0) ? colors.text[light_mode] : colorScales(i);
+            })
+            .attr("fill", d => {
+                let i = selected_funds.indexOf(d.name);
+                return (i < 0) ? colors.background[light_mode] : colorScales(i);
+            });
+    });
+
+    //
     let main_paths_opacity = 0.75;
 
     let data_orig = data;
@@ -161,9 +213,10 @@ function draw_chart(data, dom_id, chart_name) {
         .append("svg")
         .attr("width", layout.w + layout.margin.left + layout.margin.right)
         .attr("height", layout.h + layout.margin.top + layout.margin.bottom)
-        .style("background", color_background)
-        .style("color", color_text)
-        .append("g")
+        .style("background-color", colors.background[light_mode])
+        .style("color", colors.text[light_mode]);
+
+    const svg_g = svg.append("g")
         .attr("transform", `translate(${layout.margin.left},${layout.margin.top})`);
 
     // Group data by fund
@@ -219,7 +272,7 @@ function draw_chart(data, dom_id, chart_name) {
 
 
     // TOP LINE
-    let top_line = svg.append("g")
+    let top_line = svg_g.append("g")
         .classed("top-line", true)
         .attr("transform", `translate(${layout_top_line.x}, ${layout_top_line.y})`);
 
@@ -228,7 +281,7 @@ function draw_chart(data, dom_id, chart_name) {
         .attr("font-size", 13)
         .attr("text-anchor", "start")
         .attr("x", 17)
-        .attr("fill", color_text)
+        .attr("fill", colors.text[light_mode])
         .text("Zoom");
 
     // Zoom buttons
@@ -241,11 +294,11 @@ function draw_chart(data, dom_id, chart_name) {
         .on("click", set_zoom)
         .on("mouseover", function(e) {
             d3.select(this).select("rect")
-                .attr("fill", mode === "dark" ? "#555" : "#DADADA")
+                .attr("fill", colors.button_hover[light_mode]);
         })
         .on("mouseleave", function(e) {
             d3.select(this).select("rect")
-                .attr("fill", color_button)
+                .attr("fill", colors.button[light_mode]);
         });
 
     zoom_buttons.append("rect")
@@ -253,8 +306,8 @@ function draw_chart(data, dom_id, chart_name) {
         .attr("width", 36)
         .attr("height", 21)
         .attr("stroke-width", 0.8)
-        .attr("stroke", mode === "dark" ? "#555" : null)
-        .attr("fill", color_button)
+        .attr("stroke", colors.button_border[light_mode])
+        .attr("fill", colors.button[light_mode])
         .attr("x", 0)
         .attr("y", -15);
 
@@ -262,7 +315,7 @@ function draw_chart(data, dom_id, chart_name) {
         .attr("font-family", "sans-serif")
         .attr("font-size", 13)
         .attr("text-anchor", "middle")
-        .attr("fill", color_text)
+        .attr("fill", colors.text[light_mode])
         .style("user-select", "none")
         .attr("x", 18)
         .text(d => d);
@@ -320,15 +373,14 @@ function draw_chart(data, dom_id, chart_name) {
         .attr("font-size", 14)
         .attr("text-anchor", "end")
         // .attr("fill", "#0069c2")
-        // .attr("fill", mode === "dark" ? "#8ab4f8" : "#00559e")
-        .attr("fill", mode === "dark" ? "#fff" : "#00559e")
+        .attr("fill", colors.selected_range_text[light_mode])
         .style("user-select", "none")
         .attr("x", layout_top_line.w)
         .attr("y", 0);
 
 
     // MAIN CHART
-    let main_chart = svg.append("g")
+    let main_chart = svg_g.append("g")
         .classed("main-chart-area", true)
         .attr("transform", `translate(${layout_main_chart.x}, ${layout_main_chart.y})`);
 
@@ -449,7 +501,7 @@ function draw_chart(data, dom_id, chart_name) {
     // main_chart.append("rect")
     //     .attr("width", layout_main_chart.w)
     //     .attr("height", layout_main_chart.h)
-    //     .attr("fill", color_background)
+    //     .attr("fill", colors.background[dark_mode])
     //     .transition()
     //     .ease(d3.easeLinear)
     //     .duration(700)
@@ -721,7 +773,7 @@ function draw_chart(data, dom_id, chart_name) {
             .y(d => y.copy().range([layout_minimap.h, 4])(d.value));
 
     // let minimap = svg.append("g").lower()
-    let minimap = svg.insert("g", ".main-chart-area")
+    let minimap = svg_g.insert("g", ".main-chart-area")
         .classed("minimap", true)
         .attr("transform", `translate(${layout_minimap.x}, ${layout_minimap.y})`);
 
@@ -825,7 +877,7 @@ function draw_chart(data, dom_id, chart_name) {
     let height_legend = 28;
     let legends_per_col = Math.floor((layout_legends.h) / height_legend);
 
-    let g_legends = svg.append("g")
+    let g_legends = svg_g.append("g")
         .classed("legends", true)
         .attr("transform", `translate(${layout_legends.x}, ${layout_legends.y})`);
 
@@ -837,7 +889,7 @@ function draw_chart(data, dom_id, chart_name) {
         .attr("font-size", 14)
         .attr("font-weight", "bold")
         .attr("text-anchor", "left")
-        .attr("fill", color_text)
+        .attr("fill", colors.text[light_mode])
         .style("user-select", "none")
         .attr("transform", (d, i) => `translate(${i * width_legend_col - 6}, 0)`)
         .text(d => {
@@ -880,11 +932,11 @@ function draw_chart(data, dom_id, chart_name) {
         .attr("stroke-width", 1)
         .attr("stroke", d => {
             let i = selected_funds.indexOf(d.name);
-            return (i < 0) ? color_text : colorScales(i);
+            return (i < 0) ? colors.text[light_mode] : colorScales(i);
         })
         .attr("fill", d => {
             let i = selected_funds.indexOf(d.name);
-            return (i < 0) ? color_background : colorScales(i);
+            return (i < 0) ? colors.background[light_mode] : colorScales(i);
         });
 
     // Legend text
@@ -892,7 +944,7 @@ function draw_chart(data, dom_id, chart_name) {
         .attr("font-family", "sans-serif")
         .attr("font-size", 13)
         .attr("text-anchor", "left")
-        .attr("fill", color_text)
+        .attr("fill", colors.text[light_mode])
         .style("user-select", "none")
         .attr("x", r * 2)
         .attr("y", r / 2 + 1)
@@ -1191,11 +1243,11 @@ function draw_chart(data, dom_id, chart_name) {
         g_legend_items.selectAll("circle")
             .attr("stroke", d => {
                 let i = selected_funds.indexOf(d.name);
-                return (i < 0) ? color_text : colorScales(i);
+                return (i < 0) ? colors.text[light_mode] : colorScales(i);
             })
             .attr("fill", d => {
                 let i = selected_funds.indexOf(d.name);
-                return (i < 0) ? color_background : colorScales(i);
+                return (i < 0) ? colors.background[light_mode] : colorScales(i);
             });
     }
 
