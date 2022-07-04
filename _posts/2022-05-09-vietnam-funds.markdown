@@ -1,5 +1,5 @@
 ---
-layout: "custom-funds"
+layout: "funds-chart"
 title:  "Performance dashboard of open-ended funds in Vietnam"
 date:   2022-06-18 11:02:20 +0700
 categories: [blog, finance]
