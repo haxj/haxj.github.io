@@ -204,7 +204,9 @@ function draw_chart(data, dom_id, chart_name) {
     let funds = data.columns.slice(1);
 
     // let selected_funds = funds;
-    let selected_funds = ["VNINDEX", "DCDS", "E1VFVN30", "TCEF", "VESAF"];
+    let selected_funds = JSON.parse(localStorage.getItem('selected_funds'));
+    if (selected_funds === null)
+        selected_funds = ["VNINDEX", "DCDS", "E1VFVN30", "TCEF", "VESAF"];
     let data_selected_funds_all;
     let highlighted_fund;
 
@@ -1056,6 +1058,7 @@ function draw_chart(data, dom_id, chart_name) {
             } else {
                 selected_funds = selected_funds.filter(fund => fund !== d.name);
             }
+            localStorage.setItem('selected_funds', JSON.stringify(selected_funds));
             data = data_orig.filter(d => {
                 for (const fund of selected_funds) {
                     if (+d[fund] !== 0) {
@@ -1074,6 +1077,7 @@ function draw_chart(data, dom_id, chart_name) {
             } else {
                 selected_funds = selected_funds.filter(fund => fund !== d.name);
             }
+            localStorage.setItem('selected_funds', JSON.stringify(selected_funds));
             data = data_orig.filter(d => {
                 for (const fund of selected_funds) {
                     if (+d[fund] === 0) {
