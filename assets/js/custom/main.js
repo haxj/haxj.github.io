@@ -521,7 +521,9 @@ function draw_chart(data, dom_id, chart_name) {
         .attr("x1", layout_main_chart.x)
         .attr("x2", layout_main_chart.w)
         .attr("y1", d => y(d))
-        .attr("y2", d => y(d));
+        .attr("y2", d => y(d))
+    .filter(d => d === 0)
+        .attr("stroke-opacity", 0.6);
 
 
     // CROSSHAIR AND TOOLTIPS
@@ -1124,7 +1126,9 @@ function draw_chart(data, dom_id, chart_name) {
             .attr("x1", 0)
             .attr("x2", layout_main_chart.w)
             .attr("y1", d => y(d))
-            .attr("y2", d => y(d));
+            .attr("y2", d => y(d))
+        .filter(d => d === 0)
+            .attr("stroke-opacity", 0.6);
     }
 
     // Update main chart

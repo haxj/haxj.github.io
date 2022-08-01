@@ -31,6 +31,8 @@ tags: [d3.js, finance, data visualization, vietnam]
 
 **I started working on this chart as a simple line chart, just to introduce myself to D3.js. Since then I've kept thinking of new features and the code has growth much larger than just a small "Hello World".**
 
+*Inspired by Highcharts's stock chart.*
+
 ---
 
 This chart shows the cumulative return and CAGR of most open-ended funds in Vietnam. The funds can be roughly classified into 3 categories:
