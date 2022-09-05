@@ -208,7 +208,7 @@ function draw_chart(data, dom_id, chart_name) {
     if (selected_funds === null)
         selected_funds = ["VNINDEX", "DCDS", "E1VFVN30", "TCEF", "VESAF"];
     let data_selected_funds_all;
-    let highlighted_fund;
+    let highlighted_fund = null;
 
     // append the svg object to the body of the page
     const svg = d3.select(dom_id)
@@ -758,6 +758,9 @@ function draw_chart(data, dom_id, chart_name) {
     }
 
     function mouseout_main() {
+        if (highlighted_fund !== null)
+            unhighlight_fund(highlighted_fund);
+
         crosshairs.attr("opacity", 0);
         tooltips.attr("opacity", 0);
         main_chart.select(".mouse-line")
