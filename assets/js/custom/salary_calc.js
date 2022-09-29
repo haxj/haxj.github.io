@@ -393,14 +393,16 @@ class Calculator {
 
 let calc = new Calculator();
 
-document.getElementById("btn-calc").onclick = do_work;
+document.getElementById("btn-calc").onclick = function() {
+    do_work();
+    document.getElementById("results").scrollIntoView({ behavior: 'smooth', block: 'start' });
+};
 
 function do_work(event) {
     getInfoFromUI();
     calc.calculate();
     updateUI();
     update_theme();
-    document.getElementById("results").scrollIntoView({ behavior: 'smooth', block: 'start' });
 };
 
 do_work();
@@ -794,7 +796,7 @@ function draw_sankey(container_id) {
                      .linkSort(linkSort);
     let graph = sankey(data);
     graph.nodes = graph.nodes.filter(item => (item.value > 0));
-    
+
     // This is a bit hacky. For same-depth nodes that is too close to each other, the higher node label might overlap the lower one.
     // Without reversing, lower nodes are added to SVG after higher ones, therefore lower node's label will cover high node's one.
     // We reverse the nodes so that higher nodes is added to SVG after lower nodes.

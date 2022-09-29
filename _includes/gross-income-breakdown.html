@@ -1,8 +1,14 @@
 <div class="">
+    <div class="sm:tw-text-center">
+        Biểu đồ trực quan và giải thích chi tiết cách tính bảo hiểm, thuế thu nhập cá nhân, lương net (thực nhận). 
+    </div>
     <!-- <div id="user-form" class="grid auto-rows-fr grid-flow-row justify-center items-center space-y-1 p-6 border rounded-lg shadow-lg bg-white"> -->
     <div id="user-form" class="tw-flex tw-flex-col tw-max-w-2xl tw-mx-auto tw-my-16 tw-pb-8 tw-border-b tw-border-gray-300 dark:tw-border-gray-600 sm:tw-p-8 sm:tw-pt-4 sm:tw-border sm:tw-border-gray-300 dark:sm:tw-border-gray-600 sm:tw-rounded-lg">
         <div class="tw-flex tw-flex-wrap tw-justify-between tw-py-5 tw-gap-x-8 tw-gap-y-2 tw-border-b dark:tw-border-neutral-700">
-            <div>Thu nhập gross </div>
+            <span>
+                <span>Thu nhập gross</span>
+                <span class="tw-tooltip before:tw-content-[attr(data-tip)] before:tw-max-w-[14rem] before:tw-z-10 before:tw-text-justify before:tw-whitespace-pre-wrap tw-text-xs" data-tip="Thu nhập chưa trừ bảo hiểm và thuế thu nhập cá nhân">ⓘ</span>
+            </span>
             <div class="tw-flex tw-justify-end tw-gap-x-0.5 tw-ml-auto tw-min-w-0">
                 <input type="text" pattern="\d*" inputmode="numeric" name="gross-income" id="gross-income" value="20,000,000" class="input-number tw-mr-1 tw-min-w-0 tw-max-w-[11rem] tw-h-8 tw-px-2 tw-border tw-rounded-md tw-text-right glow dark:tw-bg-[#0d0d0d] dark:tw-text-white">
                 <select id="currency" class="tw-h-8 tw-px-1 tw-outline-none tw-border tw-rounded-md tw-bg-white dark:tw-border-0 dark:tw-bg-[#0d0d0d] dark:tw-text-white">
@@ -184,7 +190,7 @@
                     <details class="" open>
                         <summary class="tw-border dark:tw-border-0 tw-rounded-lg tw-bg-zinc-50 dark:tw-bg-slate-800 tw-px-3 tw-py-1 tw-cursor-pointer tw-flex tw-items-center before:tw-w-0 before:tw-h-0 before:tw-border-black before:tw-border-solid before:tw-border-y-transparent before:tw-border-r-transparent dark:before:tw-border-white dark:before:tw-border-solid dark:before:tw-border-y-transparent dark:before:tw-border-r-transparent">
                             <div class="tw-w-full tw-flex tw-justify-between tw-pl-2 tw-text-lg">
-                                <span class="tw-font-bold">Thuế</span>
+                                <span class="tw-font-bold">Thuế TNCN</span>
                                 <span id="perc-tax" class="tw-font-bold"></span>
                             </div>
                         </summary>

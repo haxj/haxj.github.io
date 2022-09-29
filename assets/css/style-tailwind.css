@@ -1675,18 +1675,6 @@ html {
   }
 }
 
-.tw-table {
-  position: relative;
-  text-align: left;
-}
-
-.tw-table th:first-child {
-  position: sticky;
-  position: -webkit-sticky;
-  left: 0px;
-  z-index: 11;
-}
-
 .tw-tooltip {
   position: relative;
   display: inline-block;
@@ -1781,64 +1769,6 @@ html {
   100% {
     transform: translateY(0);
   }
-}
-
-.tw-table :where(th, td) {
-  white-space: nowrap;
-  padding: 1rem;
-  vertical-align: middle;
-}
-
-.tw-table tr.tw-active th, 
-    .tw-table tr.tw-active td, 
-    .tw-table tr.tw-active:nth-child(even) th, 
-    .tw-table tr.tw-active:nth-child(even) td {
-  --tw-bg-opacity: 1;
-  background-color: hsl(var(--b3, var(--b2)) / var(--tw-bg-opacity));
-}
-
-.tw-table tr.tw-hover:hover th, 
-    .tw-table tr.tw-hover:hover td, 
-    .tw-table tr.tw-hover:nth-child(even):hover th, 
-    .tw-table tr.tw-hover:nth-child(even):hover td {
-  --tw-bg-opacity: 1;
-  background-color: hsl(var(--b3, var(--b2)) / var(--tw-bg-opacity));
-}
-
-.tw-table:where(:not(.tw-table-zebra)) :where(thead, tbody, tfoot) :where(tr:not(:last-child) :where(th, td)) {
-  border-bottom-width: 1px;
-  --tw-border-opacity: 1;
-  border-color: hsl(var(--b2, var(--b1)) / var(--tw-border-opacity));
-}
-
-.tw-table :where(thead, tfoot) :where(th, td) {
-  --tw-bg-opacity: 1;
-  background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
-  font-size: 0.75rem;
-  line-height: 1rem;
-  font-weight: 700;
-  text-transform: uppercase;
-}
-
-.tw-table :where(tbody th, tbody td) {
-  --tw-bg-opacity: 1;
-  background-color: hsl(var(--b1) / var(--tw-bg-opacity));
-}
-
-:where(.tw-table *:first-child) :where(*:first-child) :where(th, td):first-child {
-  border-top-left-radius: 0.5rem;
-}
-
-:where(.tw-table *:first-child) :where(*:first-child) :where(th, td):last-child {
-  border-top-right-radius: 0.5rem;
-}
-
-:where(.tw-table *:last-child) :where(*:last-child) :where(th, td):first-child {
-  border-bottom-left-radius: 0.5rem;
-}
-
-:where(.tw-table *:last-child) :where(*:last-child) :where(th, td):last-child {
-  border-bottom-right-radius: 0.5rem;
 }
 
 @keyframes toast-pop {
@@ -2017,10 +1947,6 @@ html {
   display: inline-flex;
 }
 
-.tw-table {
-  display: table;
-}
-
 .tw-grid {
   display: grid;
 }
@@ -2079,12 +2005,12 @@ html {
   max-width: 42rem;
 }
 
-.tw-max-w-\[5rem\] {
-  max-width: 5rem;
-}
-
 .tw-max-w-\[11rem\] {
   max-width: 11rem;
+}
+
+.tw-max-w-\[5rem\] {
+  max-width: 5rem;
 }
 
 .tw-max-w-sm {
@@ -2642,19 +2568,14 @@ summary:before {
   border-color: rgb(156 163 175 / var(--tw-border-opacity));
 }
 
-.tw-dark .dark\:tw-bg-black {
+.tw-dark .dark\:tw-bg-\[\#0d0d0d\] {
   --tw-bg-opacity: 1;
-  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
+  background-color: rgb(13 13 13 / var(--tw-bg-opacity));
 }
 
 .tw-dark .dark\:tw-bg-slate-800 {
   --tw-bg-opacity: 1;
   background-color: rgb(30 41 59 / var(--tw-bg-opacity));
-}
-
-.tw-dark .dark\:tw-bg-\[\#0d0d0d\] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(13 13 13 / var(--tw-bg-opacity));
 }
 
 .tw-dark .dark\:tw-text-white {
@@ -2710,6 +2631,10 @@ summary:before {
     padding-top: 1rem;
   }
 
+  .sm\:tw-text-center {
+    text-align: center;
+  }
+
   .tw-dark .dark\:sm\:tw-border-gray-600 {
     --tw-border-opacity: 1;
     border-color: rgb(75 85 99 / var(--tw-border-opacity));
@@ -2720,6 +2645,10 @@ summary:before {
   .md\:tw-px-4 {
     padding-left: 1rem;
     padding-right: 1rem;
+  }
+
+  .md\:tw-text-center {
+    text-align: center;
   }
 
   .md\:tw-text-base {
