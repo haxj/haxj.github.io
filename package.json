@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:css": "npx tailwindcss -i ./style-src/style-tailwind.css -o ./assets/css/style-tailwind.css"
+    "build:css": "npx tailwindcss -i ./style-src/style-tailwind.css -o ./assets/css/style-tailwind.css",
+    "watch:css": "npx tailwindcss -i ./style-src/style-tailwind.css -o ./assets/css/style-tailwind.css --watch"
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,8 @@
     "uglify-js": "git+https://github.com/mishoo/UglifyJS2.git#harmony"
   },
   "devDependencies": {
-    "tailwindcss": "^3.0.24"
+    "autoprefixer": "^10.4.12",
+    "daisyui": "^2.31.0",
+    "tailwindcss": "^3.1.7"
   }
 }

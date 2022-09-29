@@ -1,0 +1,210 @@
+<div class="">
+    <!-- <div id="user-form" class="grid auto-rows-fr grid-flow-row justify-center items-center space-y-1 p-6 border rounded-lg shadow-lg bg-white"> -->
+    <div id="user-form" class="tw-flex tw-flex-col tw-max-w-2xl tw-mx-auto tw-my-16 tw-pb-8 tw-border-b tw-border-gray-300 dark:tw-border-gray-600 sm:tw-p-8 sm:tw-pt-4 sm:tw-border sm:tw-border-gray-300 dark:sm:tw-border-gray-600 sm:tw-rounded-lg">
+        <div class="tw-flex tw-flex-wrap tw-justify-between tw-py-5 tw-gap-x-8 tw-gap-y-2 tw-border-b dark:tw-border-neutral-700">
+            <div>Thu nhập gross </div>
+            <div class="tw-flex tw-justify-end tw-gap-x-0.5 tw-ml-auto tw-min-w-0">
+                <input type="text" pattern="\d*" inputmode="numeric" name="gross-income" id="gross-income" value="20,000,000" class="input-number tw-mr-1 tw-min-w-0 tw-max-w-[11rem] tw-h-8 tw-px-2 tw-border tw-rounded-md tw-text-right glow dark:tw-bg-[#0d0d0d] dark:tw-text-white">
+                <select id="currency" class="tw-h-8 tw-px-1 tw-outline-none tw-border tw-rounded-md tw-bg-white dark:tw-border-0 dark:tw-bg-[#0d0d0d] dark:tw-text-white">
+                    <option value="vnd">VND</option>
+                    <option value="usd">USD</option>
+                </select>
+                <span>/</span>
+                <select id="income-period" class="tw-h-8 tw-px-1 tw-outline-none tw-border tw-rounded-md tw-bg-white dark:tw-border-0 dark:tw-bg-[#0d0d0d] dark:tw-text-white">
+                    <option value="monthly">tháng</option>
+                    <option value="annual">năm</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="exchg" class="tw-hidden tw-flex tw-flex-wrap tw-justify-between tw-py-5 tw-gap-x-8 tw-gap-y-2 tw-border-b dark:tw-border-neutral-700">
+            <div>Tỷ giá</div>
+            <div>
+                <span>1 USD = </span>
+                <input type="text" pattern="\d*" inputmode="numeric" name="exchg-rate" id="exchg-rate" appearance-none class="input-number tw-mr-1 tw-min-w-0 tw-max-w-[5rem] tw-h-8 tw-px-2 tw-border tw-rounded-md tw-text-right glow dark:tw-bg-[#0d0d0d] dark:tw-text-white" value="23,000">
+                <span> VND</span>
+            </div>
+        </div>
+
+        <div class="tw-flex tw-justify-between tw-items-center tw-py-5 tw-border-b dark:tw-border-neutral-700">
+            <span>Số người phụ thuộc</span>
+            <span class="tw-inline-flex tw-flex-row tw-h-8 tw-rounded-md tw-border tw-relative tw-bg-transparent glow">
+                <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
+                    class="tw-text-gray-600 hover:tw-text-gray-700 hover:tw-bg-gray-100 tw-h-full tw-w-8 tw-rounded-l-lg tw-border-0 tw-border-r dark:tw-border-gray-400 tw-cursor-pointer tw-outline-none focus:tw-outline-none dark:tw-bg-[#0d0d0d] dark:tw-text-white">
+                    <span class="tw-m-auto tw-text-xl tw-font-thin">-</span>
+                </button>
+                <input type="number" name="dependents" id="dependents" placeholder="Number of dependents" min=0 value="0"
+                    class="spin-btn-none tw-text-center tw-items-center tw-w-10 tw-py-2 tw-px-3 tw-leading-tight tw-border-0 tw-outline-none focus:tw-outline-none dark:tw-bg-[#0d0d0d] dark:tw-text-white">
+                <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
+                    class="tw-text-gray-600 hover:tw-text-gray-700 hover:tw-bg-gray-100 tw-h-full tw-w-8 tw-rounded-r-lg tw-border-0 tw-border-l dark:tw-border-gray-400 tw-cursor-pointer tw-outline-none focus:tw-outline-none dark:tw-bg-[#0d0d0d] dark:tw-text-white">
+                    <span class="tw-m-auto tw-text-xl tw-font-thin">+</span>
+                </button>
+            </span>
+        </div>
+
+        <!-- <fieldset class="grid auto-rows-fr grid-flow-row rounded-lg border px-5 pb-5 space-y-3"> -->
+        <div class="tw-flex tw-flex-wrap tw-justify-between tw-py-5 tw-gap-x-8 tw-gap-y-2 tw-border-b dark:tw-border-neutral-700">
+            <span>
+                <span>Căn cứ đóng bảo hiểm</span>
+                <span class="tw-tooltip before:tw-content-[attr(data-tip)] before:tw-max-w-[14rem] before:tw-z-10 before:tw-text-justify before:tw-whitespace-pre-wrap tw-text-xs" data-tip="Là mức lương căn cứ đóng BHXH, BHYT, BHTN&#10;Mức lương tháng đóng bảo hiểm xã hội tối đa bằng 20 tháng lương cơ sở (khoản 3, Điều 6, Quyết định 595/QĐ-BHXH năm 2017)">ⓘ</span>
+            </span>
+            <div class="tw-flex tw-justify-end tw-items-center tw-gap-x-0.5 tw-ml-auto tw-min-w-0">
+                <button id="set-insr-max" type="button" class="-tw-mr-9 tw-z-10 tw-px-0.5 tw-py-0.5 tw-outline-none tw-border tw-rounded tw-bg-white hover:tw-bg-slate-600 hover:tw-text-white focus:tw-outline-none active:tw-bg-slate-700 tw-text-xs tw-text-black tw-font-bold">
+                    <span class="tw-inline-flex tw-items-center tw-leading-none">
+                        Full
+                    </span>
+                </button>
+                <input type="text" pattern="\d*" inputmode="numeric" id="insurance-base" value="30,000,000" class="input-number tw-mr-1 tw-min-w-0 tw-max-w-[11rem] tw-h-8 tw-px-2 tw-border tw-rounded-md tw-text-right glow dark:tw-bg-[#0d0d0d] dark:tw-text-white">
+                <select id="currency-insr" class="tw-h-8 tw-px-1 tw-outline-none tw-border tw-rounded-md tw-bg-white dark:tw-border-0 dark:tw-bg-[#0d0d0d] dark:tw-text-white" disabled="disabled">
+                    <option value="vnd">VND</option>
+                    <option value="usd">USD</option>
+                </select>
+                <span>/</span>
+                <select id="insr-period" class="tw-h-8 tw-px-1 tw-outline-none tw-border tw-rounded-md tw-bg-white dark:tw-border-0 dark:tw-bg-[#0d0d0d] dark:tw-text-white" disabled="disabled">
+                    <option value="monthly">tháng</option>
+                    <option value="annual">năm</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="tw-flex tw-justify-between tw-py-5">
+            <span>
+                <span>Nơi làm việc</span>
+                <span class="tw-tooltip before:tw-content-[attr(data-tip)] before:tw-max-w-[14rem] before:tw-z-10 before:tw-text-left before:tw-whitespace-pre-wrap tw-text-xs" data-tip="Từ mức lương tối thiều vùng, xác định mức lương tháng đóng bảo hiểm thất nghiệp tối đa bằng 20 tháng lương tối thiểu vùng (khoản 2, Điều 58, Luật Việc làm 2013)">ⓘ</span>
+            </span>
+            <select id="region" class="tw-w-[6.5rem] tw-h-8 tw-px-1 tw-outline-none tw-border tw-rounded-md tw-bg-white dark:tw-border-0 dark:tw-bg-[#0d0d0d] dark:tw-text-white">
+                <option value=1 selected="selected">Vùng I</option>
+                <option value=2>Vùng II</option>
+                <option value=3>Vùng III</option>
+                <option value=4>Vùng IV</option>
+            </select>
+        </div>
+
+        <div class="tw-flex tw-justify-center">
+            <button id="btn-calc" type="button" class="tw-px-7 tw-py-1 tw-rounded focus:tw-outline-none tw-bg-blue-500 hover:tw-bg-blue-600 active:tw-bg-blue-700 tw-text-white tw-font-bold glow-hover">Tính</button>
+        </div>
+    </div>
+
+    <div id="results" class="tw-flex tw-flex-col tw-my-10">
+        <!-- tab -->
+        <div class="tw-grid tw-grid-cols-3 tw-justify-items-stretch tw-max-w-sm tw-m-auto tw-mb-8 tw-border-b tw-border-gray-300 tw-text-base">
+            <div class="tw-flex -tw-mb-px tw-mx-1">
+                <input type="radio" id="res-opt-summary" name="res-opt" value="1" class="tw-hidden tw-peer" checked>
+                <label for="res-opt-summary" class="tw-w-full tw-m-auto tw-px-3 tw-py-2 tw-text-center tw-whitespace-nowrap tw-border-b-2 tw-border-transparent tw-text-gray-500 tw-font-bold tw-leading-snug tw-cursor-pointer hover:tw-border-gray-400 hover:tw-text-gray-600 peer-checked:tw-border-blue-500 peer-chùngecked:tw-text-blue-500">Tổng quan</label>
+            </div>
+            <div class="tw-flex -tw-mb-px tw-mx-1">
+                <input type="radio" id="res-opt-detail" name="res-opt" value="2" class="tw-hidden tw-peer">
+                <label for="res-opt-detail" class="tw-w-full tw-m-auto tw-px-3 tw-py-2 tw-text-center tw-whitespace-nowrap tw-border-b-2 tw-border-transparent tw-text-gray-500 tw-font-bold tw-leading-snug tw-cursor-pointer hover:tw-border-gray-400 hover:tw-text-gray-600 peer-checked:tw-border-blue-500 peer-checked:tw-text-blue-500">Chi tiết</label>
+            </div>
+            <div class="tw-flex -tw-mb-px tw-mx-1">
+                <input type="radio" id="res-opt-explain" name="res-opt" value="3" class="tw-hidden tw-peer">
+                <label for="res-opt-explain" class="tw-w-full tw-m-auto tw-px-3 tw-py-2 tw-text-center tw-whitespace-nowrap tw-border-b-2 tw-border-transparent tw-text-gray-500 tw-font-bold tw-leading-snug tw-cursor-pointer hover:tw-border-gray-400 hover:tw-text-gray-600 peer-checked:tw-border-blue-500 peer-checked:tw-text-blue-500">Giải thích</label>
+            </div>
+        </div>
+
+        <!-- button -->
+        <div class="tw-grid tw-grid-cols-2 tw-justify-items-stretch tw-w-60 tw-m-auto -tw-mb-px">
+            <div class="tw-flex">
+                <input type="radio" id="result-monthly" name="result-period" value="monthly" class="tw-hidden tw-peer" checked>
+                <label for="result-monthly" class="tw-w-full tw-m-auto tw-py-px tw-text-center tw-whitespace-nowrap tw-border tw-border-blue-500 tw-rounded-l-md tw-font-semibold tw-text-sm tw-text-blue-500 tw-leading-snug tw-cursor-pointer peer-checked:tw-bg-blue-500 peer-checked:tw-text-white">Hàng tháng</label>
+            </div>
+            <div class="tw-flex">
+                <input type="radio" id="result-annual" name="result-period" value="annual" class="tw-hidden tw-peer">
+                <label for="result-annual" class="tw-w-full tw-m-auto tw-py-px tw-text-center tw-whitespace-nowrap tw-border tw-border-blue-500 tw-rounded-r-md tw-font-semibold tw-text-sm tw-text-blue-500 tw-leading-snug tw-cursor-pointer peer-checked:tw-bg-blue-500 peer-checked:tw-text-white">Cả năm</label>
+            </div>
+        </div>
+
+        <!-- button -->
+        <!-- <div class="tw-grid tw-grid-cols-2 tw-justify-items-stretch tw-max-w-xs tw-m-auto tw-p-0.5 tw-border tw-border-blue-500 tw-rounded-lg">
+            <div class="tw-flex">
+                <input type="radio" id="result-monthly" name="result-period" value="monthly" class="tw-hidden tw-peer" checked>
+                <label for="result-monthly" class="tw-w-full tw-m-0 tw-px-5 tw-text-center tw-whitespace-nowrap tw-rounded-md tw-text-blue-500 tw-font-bold tw-leading-snug  tw-cursor-pointer peer-checked:tw-bg-blue-500 peer-checked:tw-text-white">Hàng tháng</label>
+            </div>
+            <div class="tw-flex">
+                <input type="radio" id="result-annual" name="result-period" value="annual" class="tw-hidden tw-peer">
+                <label for="result-annual" class="tw-w-full tw-m-0 tw-px-5 tw-text-center tw-whitespace-nowrap tw-rounded-md tw-text-blue-500 tw-font-bold tw-leading-snug  tw-cursor-pointer peer-checked:tw-bg-blue-500 peer-checked:tw-text-white">Cả năm</label>
+            </div>
+        </div> -->
+
+        <div class="tw-relative tw-mt-6 tw-h-fit">
+            <div id="tab-1" class="tw-absolute tw-top-0 tw-left-0 tw-w-full tw-m-auto">
+                <div class="">
+                    <table class="tw-m-auto tw-w-64 sm:tw-w-80">
+                        <tbody>
+                            <tr>
+                                <td>Thu nhập gross</td>
+                                <td id="res-gross" class="tw-text-right"></td>
+                            </tr>
+                            <tr>
+                                <td>Bảo hiểm</td>
+                                <td id="res-insurance" class="tw-text-right"></td>
+                            </tr>
+                            <tr>
+                                <td>Thuế TNCN</td>
+                                <td id="res-tax" class="tw-text-right"></td>
+                            </tr>
+                            <tr>
+                                <td>Thu nhập net</td>
+                                <td id="res-net" class="tw-text-right"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="container-chart-pie" class="tw-max-w-3xl tw-m-auto"></div>
+            </div>
+
+            <div id="tab-2" class="tw-absolute tw-top-0 tw-left-0 tw-w-full tw-m-auto">
+                <div class="tw-mb-2 tw-text-center tw-text-sm tw-italic tw-text-neutral-400">Chạm để xem chi tiết</div>
+                <div id="container-chart-sankey" class="tw-max-w-6xl tw-m-auto"></div>
+            </div>
+
+            <div id="tab-3" class="tw-w-full tw-m-auto">
+                <div id="explanation" class="tw-grow tw-flex tw-flex-col tw-gap-1 tw-max-w-2xl tw-mx-auto tw-mt-4">
+                    <details class="" open>
+                        <summary class="tw-border dark:tw-border-0 tw-rounded-lg tw-bg-zinc-50 dark:tw-bg-slate-800 tw-px-3 tw-py-1 tw-cursor-pointer tw-flex tw-items-center before:tw-w-0 before:tw-h-0 before:tw-border-black before:tw-border-solid before:tw-border-y-transparent before:tw-border-r-transparent dark:before:tw-border-white dark:before:tw-border-solid dark:before:tw-border-y-transparent dark:before:tw-border-r-transparent">
+                        <!-- <summary class="border-b px-3 py-2 cursor-pointer transition flex items-center before:w-0 before:h-0 before:border-black before:border-solid before:border-y-transparent before:border-r-transparent"> -->
+                            <div class="tw-w-full tw-flex tw-justify-between tw-pl-2 tw-text-lg">
+                                <span class="tw-font-bold">Thu nhập gross</span>
+                                <span id="perc-gross" class="tw-font-bold">100%</span>
+                            </div>
+                        </summary>
+                        <div id="explain-gross" class="md:tw-px-4 tw-text-[15px] md:tw-text-base">
+                        </div>
+                    </details>
+                    <details class="" open>
+                        <summary class="tw-border dark:tw-border-0 tw-rounded-lg tw-bg-zinc-50 dark:tw-bg-slate-800 tw-px-3 tw-py-1 tw-cursor-pointer tw-flex tw-items-center before:tw-w-0 before:tw-h-0 before:tw-border-black before:tw-border-solid before:tw-border-y-transparent before:tw-border-r-transparent dark:before:tw-border-white dark:before:tw-border-solid dark:before:tw-border-y-transparent dark:before:tw-border-r-transparent">
+                            <div class="tw-w-full tw-flex tw-justify-between tw-pl-2 tw-text-lg">
+                                <span class="tw-font-bold">Bảo hiểm</span>
+                                <span id="perc-insurance" class="tw-font-bold"></span>
+                            </div>
+                        </summary>
+                        <div id="explain-insurance" class="md:tw-px-4 tw-text-[15px] md:tw-text-base tw-leading-snug">
+                        </div>
+                    </details>
+                    <details class="" open>
+                        <summary class="tw-border dark:tw-border-0 tw-rounded-lg tw-bg-zinc-50 dark:tw-bg-slate-800 tw-px-3 tw-py-1 tw-cursor-pointer tw-flex tw-items-center before:tw-w-0 before:tw-h-0 before:tw-border-black before:tw-border-solid before:tw-border-y-transparent before:tw-border-r-transparent dark:before:tw-border-white dark:before:tw-border-solid dark:before:tw-border-y-transparent dark:before:tw-border-r-transparent">
+                            <div class="tw-w-full tw-flex tw-justify-between tw-pl-2 tw-text-lg">
+                                <span class="tw-font-bold">Thuế</span>
+                                <span id="perc-tax" class="tw-font-bold"></span>
+                            </div>
+                        </summary>
+                        <div id="explain-tax" class="md:tw-px-4 tw-text-[15px] md:tw-text-base tw-leading-snug">
+                        </div>
+                    </details>
+                    <details class="" open>
+                        <summary class="tw-border dark:tw-border-0 tw-rounded-lg tw-bg-zinc-50 dark:tw-bg-slate-800 tw-px-3 tw-py-1 tw-cursor-pointer tw-flex tw-items-center before:tw-w-0 before:tw-h-0 before:tw-border-black before:tw-border-solid before:tw-border-y-transparent before:tw-border-r-transparent dark:before:tw-border-white dark:before:tw-border-solid dark:before:tw-border-y-transparent dark:before:tw-border-r-transparent">
+                            <div class="tw-w-full tw-flex tw-justify-between tw-pl-2 tw-text-lg">
+                                <span class="tw-font-bold">Thu nhập thực nhận (Net)</span>
+                                <span id="perc-net" class="tw-font-bold"></span>
+                            </div>
+                        </summary>
+                        <div id="explain-net" class="md:tw-px-4 tw-text-[15px] md:tw-text-base">
+                        </div>
+                    </details>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
