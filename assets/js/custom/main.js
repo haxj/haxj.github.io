@@ -25,7 +25,7 @@ const funds_info = [
     { 'name': 'DCIP',        'type': 'Bond',       'company': 'Dragon Capital',  },
     { 'name': 'E1VFVN30',    'type': 'ETF',        'company': 'Dragon Capital',  },
     { 'name': 'FUEVFVND',    'type': 'ETF',        'company': 'Dragon Capital',  },
-    // { 'name': 'FUEDCMID',    'type': 'ETF',        'company': 'Dragon Capital',  },
+    { 'name': 'FUEDCMID',    'type': 'ETF',        'company': 'Dragon Capital',  },
     { 'name': 'TCEF',        'type': 'Active',     'company': 'Techcom Capital', },
     { 'name': 'TCBF',        'type': 'Bond',       'company': 'Techcom Capital', },
     { 'name': 'TCFF',        'type': 'Bond',       'company': 'Techcom Capital', },
