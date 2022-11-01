@@ -25,7 +25,7 @@ const funds_info = [
     { 'name': 'DCIP',        'type': 'Bond',       'company': 'Dragon Capital',  },
     { 'name': 'E1VFVN30',    'type': 'ETF',        'company': 'Dragon Capital',  },
     { 'name': 'FUEVFVND',    'type': 'ETF',        'company': 'Dragon Capital',  },
-    // { 'name': 'FUEDCMID',    'type': 'ETF',        'company': 'Dragon Capital',  },
+    { 'name': 'FUEDCMID',    'type': 'ETF',        'company': 'Dragon Capital',  },
     { 'name': 'TCEF',        'type': 'Active',     'company': 'Techcom Capital', },
     { 'name': 'TCBF',        'type': 'Bond',       'company': 'Techcom Capital', },
     { 'name': 'TCFF',        'type': 'Bond',       'company': 'Techcom Capital', },
@@ -70,7 +70,7 @@ const n_cols_legend = 4;
 const width_legend_col = 110,
     width_legend = width_legend_col * n_cols_legend;
 
-const layout = new function() {
+let layout = new function() {
         this.margin = {
             top: 30,
             right: 30,
@@ -120,8 +120,15 @@ const layout = new function() {
         h: layout.h,
     };
 
+layout_top_line.w = d3.select("#chart_cr").node().getBoundingClientRect().width - 50;
+console.log(layout_top_line.w)
+layout_main_chart.w = layout_top_line.w;
+layout_minimap.w = layout_top_line.w;
+layout.w = layout_main_chart.w + layout_main_chart.margin.right + width_legend;
+layout_legends.x = layout_main_chart.w + layout_main_chart.margin.right;
+
 // Number of ticks on axis
-const x_nticks = 6;
+const x_nticks = 4;
 const y_nticks = 4;
 
 const zoom_periods = [ "1M", "3M", "6M", "YTD", "1Y", "3Y", "5Y", "All" ];
