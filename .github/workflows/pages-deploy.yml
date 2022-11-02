@@ -19,6 +19,17 @@ jobs:
         with:
           fetch-depth: 0  # for posts's lastmod
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build tailwindcss
+        run: npm run build:css
+
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
