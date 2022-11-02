@@ -11,6 +11,17 @@ module.exports = {
     hoverOnlyWhenSupported: true,
   },
   plugins: [require("daisyui")],
+  daisyui: {
+    themes: [
+      {
+        dark: {
+          ...require("daisyui/src/colors/themes")["[data-theme=dark]"],
+          "base-100": "#1b1b1e"
+        }
+      },
+      "light"
+    ]
+  },
   theme: {
     extend: {
       colors: {

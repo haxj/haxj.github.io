@@ -456,10 +456,9 @@ function update_theme() {
     // Handle dark/light mode
     light_mode = toggle.modeStatus === ModeToggle.LIGHT_MODE ? 1 : 0;
     
-    if (!light_mode)
-        d3.select("html").classed("tw-dark", true);
-    else
-        d3.select("html").classed("tw-dark", false);
+    d3.select("html")
+        .attr("data-theme", light_mode ? "light" : "dark")
+        .classed("tw-dark", !light_mode);
 
     chart_pie.update_theme(light_mode);
     chart_sankey.update_theme(light_mode);

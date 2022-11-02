@@ -152,8 +152,12 @@ function draw_chart(data, dom_id, chart_name) {
     // Handle dark/light mode
     let light_mode = toggle.modeStatus === ModeToggle.LIGHT_MODE ? 1 : 0;
 
+    d3.select("html").attr("data-theme", light_mode ? "light" : "dark");
+
     document.getElementById("mode-toggle-wrapper").addEventListener('click', function() {
         light_mode = +!light_mode;
+
+        d3.select("html").attr("data-theme", light_mode ? "light" : "dark");
 
         svg.style("background-color", colors.background[light_mode])
             .style("color", colors.text[light_mode]);
