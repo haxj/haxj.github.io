@@ -19,6 +19,12 @@ jobs:
         with:
           fetch-depth: 0  # for posts's lastmod
 
+      # Workaround for a bug: https://github.com/actions/setup-node/issues/214
+      - name: Reconfigure git to use HTTP authentication
+        run: >
+          git config --global url."https://github.com/".insteadOf
+          ssh://git@github.com/
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
