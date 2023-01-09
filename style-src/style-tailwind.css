@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.spin-btn-none::-webkit-outer-spin-button,
+.spin-btn-none::-webkit-inner-spin-button {
+  appearance: none;
+}
+
+.spin-btn-none {
+  -moz-appearance: textfield;
+}
+
+/* .node:hover {
+  opacity: 1;
+} */
+
+/* .link {
+  transition: 100ms;
+} */
+
+.link:hover {
+  stroke-opacity: 0.75;
+}
+
+.pie-part:hover {
+  opacity: 0.99;
+}
+
+details[open] > summary:before {
+  transform: rotate(90deg);
+}
+
+summary:before {
+  border-width: 7px;
+  transform: rotate(0);
+  transform-origin: 3px 50%;
+  transition: transform .2s;
+}
+
+@layer components {
+  .glow {
+    @apply focus-within:tw-outline-none focus-within:tw-border focus-within:tw-border-blue-400 dark:tw-border-black dark:focus-within:tw-border-blue-400;
+    /* @apply focus-within:tw-outline-none focus-within:tw-border focus-within:tw-border-blue-400 focus-within:tw-ring focus-within:tw-ring-blue-400/20; */
+  }
+  .glow-hover {
+    @apply hover:tw-outline-none hover:tw-border-blue-400 hover:tw-shadow-sm hover:tw-shadow-blue-400;
+  }
+}
