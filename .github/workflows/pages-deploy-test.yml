@@ -40,10 +40,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.7
-          bundler-cache: false
-
-      - name: Run bundle install manually
-        run: bundle install
+          bundler-cache: true
 
       - name: Check baseurl
         run: |
