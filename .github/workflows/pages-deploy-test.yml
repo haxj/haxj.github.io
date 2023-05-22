@@ -37,7 +37,7 @@ jobs:
         run: npm run build:css
 
       - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@7d546f4868fb108ed378764d873683f920672ae2
         with:
           ruby-version: 2.7
           bundler-cache: true
