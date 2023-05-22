@@ -6,7 +6,7 @@ gemspec
 
 group :test do
   gem "html-proofer", "~> 3.18"
-  gem "nokogiri", "~> 1.14.4"
+  gem "nokogiri", "1.14.4"
 end
 
 # Windows and JRuby does not include zoneinfo files, so bundle the tzinfo-data gem
