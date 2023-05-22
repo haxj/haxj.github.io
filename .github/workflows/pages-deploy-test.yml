@@ -42,6 +42,9 @@ jobs:
           ruby-version: 2.7
           bundler-cache: false
 
+      - name: Run bundle install manually
+        run: bundle install
+
       - name: Check baseurl
         run: |
           baseurl="$(grep '^baseurl:' _config.yml | sed "s/.*: *//;s/['\"]//g;s/#.*//")"
