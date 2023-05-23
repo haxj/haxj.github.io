@@ -24,16 +24,18 @@ tags: [d3.js, finance, data visualization, vietnam]
 
 
 <div class="wide_chart">
-<!-- <div id="chart_navps" class="tw-w-fit tw-m-auto tw--ml-5"></div> -->
 <div id="chart_cr" class="tw-w-fit tw-m-auto tw--ml-5"></div>
 </div>
 
+### (Tiếng Việt bên dưới)
 
-**I started working on this chart as a simple line chart, just to introduce myself to D3.js. Since then I've kept thinking of new features and the code has growth much larger than just a small "Hello World".**
+I started working on this chart as a simple line chart, just to introduce myself to D3.js. Since then I've kept thinking of new features and the code has growth much larger than just a small "Hello World".
 
 *Inspired by Highcharts's stock chart.*
 
 ---
+
+*Disclaimer: I have no affiliation with any of these asset management companies. The information contained in this page is provided on an "as is" basis with no guarantees of completeness or accuracy. This page is created for informational purposes only and is not intended to be financial advice.*
 
 This chart shows the cumulative return and CAGR of most open-ended funds in Vietnam. The funds can be roughly classified into 3 categories:
 
@@ -42,6 +44,9 @@ This chart shows the cumulative return and CAGR of most open-ended funds in Viet
 - Fixed income funds: funds that invest in fixed income securities, like bonds or certificates of deposit.
 
 ---
+
+## So sánh hiệu quả hoạt động của các quỹ mở tại Việt Nam
+*Disclaimer: Người viết không có mối liên kết tài trợ với bất kỳ công ty quản lý quỹ nào. Thông tin trên trang web chỉ mang tính tham khảo, người viết không đảm bảo về tính hoàn thiện hay chính xác của các thông tin này. Đây không phải lời khuyên đầu tư.*
 
 Trên đồ thị là cumulative return (Tổng lợi tức) và CAGR (Mức tăng trưởng kép hàng năm) của các quỹ mở ở Việt Nam. Các quỹ được chia thành 3 nhóm:
 
