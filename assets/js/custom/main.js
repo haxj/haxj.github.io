@@ -59,6 +59,7 @@ const funds_info = [
     { 'name': 'MBBOND',      'type': 'Bond',       'company': 'MB Capital',      },
     { 'name': 'FUEMAV30',    'type': 'ETF',        'company': 'Mirae Asset',     },
     { 'name': 'FUEKIV30',    'type': 'ETF',        'company': 'KIM',             },
+    { 'name': 'FUEKIVFS',    'type': 'ETF',        'company': 'KIM',             },
 ];
 
 const fund_types = ['Index', 'ETF', 'Active', 'Bond'];
