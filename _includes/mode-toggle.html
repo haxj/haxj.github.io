@@ -30,6 +30,7 @@
       });
 
       if (!this.hasMode) {
+        this.setDark();
         return;
       }
 
@@ -99,7 +100,11 @@
 
     flipMode() {
       if (this.hasMode) {
-        this.clearMode();
+        if (this.isDarkMode) {
+          this.setLight();
+        } else {
+          this.setDark();
+        }
       } else {
         if (this.isPreferDark) {
           this.setLight();
