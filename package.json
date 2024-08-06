@@ -14,7 +14,8 @@
   "homepage": "https://github.com/cotes2020/jekyll-theme-chirpy/",
   "scripts": {
     "build": "concurrently npm:build:*",
-    "build:css": "purgecss -c purgecss.config.js",
+    "build:css": "purgecss -c purgecss.config.js && npx tailwindcss -i ./tailwindcss-src/style-tailwind.css -o ./assets/css/style-tailwind.css --minify",
+    "watch:tailwind": "npx tailwindcss -i ./tailwindcss-src/style-tailwind.css -o ./assets/css/style-tailwind.css --watch",
     "build:js": "rollup -c --bundleConfigAsCjs --environment BUILD:production",
     "watch:js": "rollup -c --bundleConfigAsCjs -w",
     "lint:scss": "stylelint _sass/**/*.scss",
@@ -43,6 +44,8 @@
     "conventional-changelog-conventionalcommits": "^7.0.2",
     "husky": "^9.0.11",
     "purgecss": "^6.0.0",
+    "daisyui": "^4.12.10",
+    "tailwindcss": "^3.4.7",
     "rollup": "^4.17.2",
     "rollup-plugin-license": "^3.3.1",
     "semantic-release": "^23.1.1",
