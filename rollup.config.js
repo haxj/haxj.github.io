@@ -12,6 +12,21 @@ const SRC_PWA = `${SRC_DEFAULT}/pwa`;
 
 const isProd = process.env.BUILD === 'production';
 
+const onwarn = (warning, defaultHandler) => {
+    const ignoredWarnings = [
+        {
+            code: 'CIRCULAR_DEPENDENCY',
+            file: 'node_modules/d3-'
+        }
+    ];
+    if (!ignoredWarnings.some(
+            ({ code, file }) => warning.code === code && warning.message.includes(file)
+        )
+    ) {
+        defaultHandler(warning);
+    }
+};
+
 if (fs.existsSync(DIST_DEFAULT)) {
   fs.rm(DIST_DEFAULT, { recursive: true, force: true }, (err) => {
     if (err) {
@@ -28,6 +43,7 @@ function build(filename, opts = {}) {
   const commentStyle = opts.commentStyle || 'ignored';
 
   return {
+    onwarn,
     input: [`${src}/${filename}.js`],
     output: {
       file: `${dist}/${filename}.min.js`,
@@ -66,6 +82,7 @@ export default [
   build('post'),
   build('misc'),
   build('app', { src: SRC_PWA }),
+  build('fundschart'),
   build('sw', {
     src: SRC_PWA,
     bannerUrl: path.join(__dirname, SRC_PWA, '_frontmatter'),
