@@ -51,7 +51,9 @@
         {%- capture tab_key -%}{{ page.url | split: '/' }}{%- endcapture -%}
         {{- site.data.locales[include.lang].tabs[tab_key] | default: page.title -}}
       {% else %}
-        {{- site.data.locales[include.lang].layout[page.layout] | default: page.layout | capitalize -}}
+        <a href="{{ '/' | relative_url }}">
+          {{- site.data.locales[include.lang].title | default: site.title -}}
+        </a>
       {% endif %}
     </div>
 
