@@ -83,6 +83,7 @@ export default [
   build('misc'),
   build('app', { src: SRC_PWA }),
   build('fundschart'),
+  build('salary_calc'),
   build('sw', {
     src: SRC_PWA,
     bannerUrl: path.join(__dirname, SRC_PWA, '_frontmatter'),
