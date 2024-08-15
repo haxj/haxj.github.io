@@ -34,7 +34,7 @@ tags: [d3.js, economics, data visualization, vietnam]
 
 # Notes
 
-- Data source: BACI [HS6 REV. 1992 (1995 - 2022)](http://www.cepii.fr/CEPII/en/bdd_modele/presentation.asp?id=37) via [The Observatory of Economic Complexity](https://oec.world/en/profile/country/vnm)
+- Data source: BACI [HS6 REV. 1992 (1995 - 2022)](https://www.cepii.fr/CEPII/en/bdd_modele/presentation.asp?id=37) via [The Observatory of Economic Complexity](https://oec.world/en/profile/country/vnm)
 - Chart source code: customized from [D3 bar chart race on Observable](https://observablehq.com/@d3/bar-chart-race-explained).
 - Bar chart race is probably better at visualizing accumulating data than periodic (annual) data like in this case.
 
