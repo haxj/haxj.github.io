@@ -1,6 +1,6 @@
 ---
 layout: "funds-chart"
-title:  "Vietnam export and import by countries, from 1995 to 2022"
+title:  "Vietnam exports and imports by country, 1995–2022"
 date:   2023-08-09 23:02:20 +0700
 categories: [blog, economics]
 tags: [d3.js, economics, data visualization, vietnam]
