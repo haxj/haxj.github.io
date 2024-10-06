@@ -22,6 +22,7 @@ const funds_info = [
     { 'name': 'VESAF',       'type': 'Active',     'company': 'VinaCapital',     },
     { 'name': 'VEOF',        'type': 'Active',     'company': 'VinaCapital',     },
     { 'name': 'VIBF',        'type': 'Active',     'company': 'VinaCapital',     },
+    { 'name': 'VMEEF',       'type': 'Active',     'company': 'VinaCapital',     },
     { 'name': 'VFF',         'type': 'Bond',       'company': 'VinaCapital',     },
     { 'name': 'VLBF',        'type': 'Bond',       'company': 'VinaCapital',     },
     { 'name': 'FUEVN100',    'type': 'ETF',        'company': 'VinaCapital',     },
@@ -60,7 +61,7 @@ const n_cols_legend = 3;
 const width_legend_col = mode_portrait ? 110 : 120;
 const width_legend = width_legend_col * n_cols_legend;
 // Ugly hard-coded total height of legends
-const height_legend = 550;
+const height_legend = 570;
 
 const main_chart_width_max = 1450;
 let main_content_width = d3.select("#chart_cr")
