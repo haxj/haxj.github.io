@@ -135,7 +135,7 @@ const layout_main_chart = new function() {
     };
 
 // Size of legend color marker
-const w_legend_marker = 0.7;
+const w_legend_marker = 10;
 
 // Number of ticks on axis
 const y_nticks = 3;
@@ -909,8 +909,8 @@ function draw_chart(data, dom_id, chart_name) {
         .classed("legend-color", true)
         .style("display", "inline-block")
         .style("margin", "auto")
-        .style("width", `${w_legend_marker}em`)
-        .style("height", `${w_legend_marker}em`)
+        .style("width", `${w_legend_marker}px`)
+        .style("height", `${w_legend_marker}px`)
         .style("border-width", "1px")
         .style("border-style", "solid")
         .style("border-radius", "3px")
@@ -932,6 +932,7 @@ function draw_chart(data, dom_id, chart_name) {
         .append("span")
         .classed("legend-text", true)
         .style("margin", "auto 0 auto 5px")
+        .style("text-align", "left")
         .text(d => d.name);
 
     function highlight_fund(fund) {
