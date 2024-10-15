@@ -48,30 +48,26 @@ const funds_info = [
     { 'name': 'FUEKIVFS',    'type': 'ETF',        'company': 'KIM',             },
 ];
 
-const fund_types = ['Index', 'ETF', 'Active', 'Bond'];
+const fund_types = new Set(funds_info.map(f => f.type));
+let funds_grouped = new Map();
 for (const t of fund_types) {
-    funds_info[t] = funds_info.filter(f => f.type === t).map(f => f.name);
+    funds_grouped.set(t, d3.group(funds_info.filter(f => f.type === t), f => f.company));
 }
 
-let font_sans_serif = "'Open Sans', sans-serif";
+const font_sans_serif = "'Open Sans', sans-serif";
 
-let mode_portrait = window.innerHeight > window.innerWidth;
-
-const n_cols_legend = 3;
-const width_legend_col = mode_portrait ? 110 : 120;
-const width_legend = width_legend_col * n_cols_legend;
-// Ugly hard-coded total height of legends
-const height_legend = 570;
+//const mode_portrait = window.innerWidth / window.innerHeight < 1.4;
+const mode_portrait = window.innerWidth < 1820;
 
 const main_chart_width_max = 1450;
-let main_content_width = d3.select("#chart_cr")
+const main_content_width = d3.select("#chart_cr")
     .node()
     .getBoundingClientRect()
     .width;
 
-let main_chart_margin_left = 40;
-let main_chart_margin_right = 16;
-let width_main_chart = Math.min(main_content_width - main_chart_margin_left - main_chart_margin_right, main_chart_width_max);
+const main_chart_margin_left = 40;
+const main_chart_margin_right = 16;
+const width_main_chart = Math.min(main_content_width - main_chart_margin_left - main_chart_margin_right, main_chart_width_max);
 
 // Dimensions and margins of chart components
 const layout_main_chart = new function() {
@@ -83,7 +79,7 @@ const layout_main_chart = new function() {
         this.x = this.margin.left;
         this.y = this.margin.top;
         this.w = width_main_chart;
-        this.h = mode_portrait ? height_legend * 0.8 : height_legend;
+        this.h = mode_portrait ? 450 : 600;
     },
 
     layout_top_line = new function() {
@@ -119,22 +115,7 @@ const layout_main_chart = new function() {
         this.h = layout_main_chart.h
                 - (layout_top_line.margin.top + layout_top_line.margin.bottom + layout_top_line.h)
                 - (layout_minimap.margin.top + layout_minimap.margin.top + layout_minimap.h);
-    };
-
-let layout_legends, layout;
-
-if (mode_portrait) {
-    layout_legends = new function() {
-        this.margin = {
-            top: 50,
-            left: layout_main_chart.x,
-        };
-        this.x = this.margin.left + (layout_main_chart.w) / 2 - width_legend / 2;
-        // this.x = layout_main_chart.x;
-        this.y = layout_main_chart.y + layout_main_chart.h + this.margin.top;
-        this.w = width_legend;
-        this.h = height_legend;
-    };
+    },
 
     layout = new function() {
         this.margin = {
@@ -143,33 +124,12 @@ if (mode_portrait) {
             bottom: 0,
             left: 0,
         };
-        this.w = Math.max(layout_main_chart.x + layout_main_chart.w, layout_legends.x + layout_legends.w);
-        this.h = layout_legends.y + layout_legends.h;
-    };
-} else {
-    layout_legends = new function() {
-        this.margin = {
-            top: layout_main_chart.y + 5,
-            left: 40,
-        };
-        this.x = layout_main_chart.x + layout_main_chart.w + this.margin.left;
-        this.y = this.margin.top;
-        this.w = width_legend;
-        this.h = height_legend;
+        this.w = layout_main_chart.x + layout_main_chart.w + this.margin.left;
+        this.h = layout_main_chart.y + layout_main_chart.h + this.margin.top;
     };
 
-    layout = new function() {
-        this.margin = {
-            top: 0,
-            right: 0,
-            bottom: 0,
-            left: 0,
-        };
-        this.w = layout_legends.x + layout_legends.w;
-        this.h = layout_legends.y + layout_legends.h;
-    };
-
-}
+// Size of legend color marker
+const w_legend_marker = 0.7;
 
 // Number of ticks on axis
 const y_nticks = 3;
@@ -600,6 +560,7 @@ function draw_chart(data, dom_id, chart_name) {
         .on("mouseout", mouseout_main)
         .on("touchstart", touchstart_main)
         .on("touchmove", mousemove_main)
+        .on("touchend", mouseout_main)
         .on("touchcancel", mouseout_main);
 
     // touch screen event
@@ -661,7 +622,7 @@ function draw_chart(data, dom_id, chart_name) {
         tooltips_lines
             .sort((a, b) => b.info[i].value - a.info[i].value)
             .transition()
-            .duration(40)
+            .duration(60)
             .attr("transform", tooltips_lines_y)
 
         switch(chart_name) {
@@ -835,109 +796,137 @@ function draw_chart(data, dom_id, chart_name) {
 
     // LEGENDS
     // Add legends
-    let height_legend_row = 28;
-    // let legends_per_col = Math.floor((layout_legends.h) / height_legend);
+    let legend_cols = [
+        ["Index", "ETF"],
+        ["Active"],
+        ["Bond"],
+    ];
 
-    let g_legends = svg_g.append("g")
-        .classed("legends", true)
-        .attr("transform", `translate(${layout_legends.x}, ${layout_legends.y})`);
+    let legends = d3
+        .select(dom_id)
+            .style("display", "grid")
+            .style("grid-template-columns", `repeat(${mode_portrait ? 1 : 2}, 1fr)`)
+            .style("grid-template-rows", `${mode_portrait ? "auto 1fr" : "1fr"}`)
+            .style("gap", "10px 50px")
+        .append("div")
+            .style("width", `${mode_portrait ? "inherit" : "500px"}`)
+            .style("font-family", font_sans_serif)
+            .style("font-size", "15px")
+            .style("line-height", "1.3")
+            .style("color", "currentColor")
+            .style("user-select", "none")
+            .style("display", "grid")
+            .style("grid-template-columns", "repeat(3, 1fr)")
+            .style("height", `${mode_portrait ? "auto" : layout_main_chart.h + "px"}`)
+            .style("column-gap", `${mode_portrait ? "10px" : "20px"}`);
 
-    // Column header for type of fund
-    g_legends.selectAll("text")
-        .data(fund_types)
-        .join("text")
-        .attr("font-family", font_sans_serif)
-        .attr("font-size", 16)
-        .attr("font-weight", "bold")
-        .attr("text-anchor", "left")
-        .attr("fill", "currentColor")
-        .style("user-select", "none")
-        .attr("transform", (d, i) => {
-            let y = 0;
-            if (d != 'Index') {
-                i = i - 1;
-                if (d == 'ETF') {
-                    y = 112;
+    // Header for types of fund
+    let legends_types = legends
+        .selectAll("div")
+            .data(legend_cols)
+            .join("div")
+            //.style("width", "145px")
+            .style("max-width", "150px")
+            .style("margin", "18px auto 0")
+        .selectAll("div")
+            .data(d => d)
+            .join("div")
+            .style("margin-bottom", "2em");
+
+    legends_types
+        .append("div")
+            .style("font-size", "16px")
+            .style("font-weight", "bold")
+            .style("text-align", "center")
+            .style("padding", "1px")
+            //.style("text-decoration", "underline")
+            //.style("text-underline-offset", "0.2em")
+            .style("border-bottom", "1px solid #8888")
+            //.style("border-radius", "5px")
+            .text(d => {
+                switch (d) {
+                    case 'Active':
+                        return "Active funds";
+                    case 'ETF':
+                        return "Index funds";
+                    case 'Bond':
+                        return "Fixed income";
+                    case 'Index':
+                        return 'Indices';
                 }
-            }
-            return `translate(${i * width_legend_col - 6}, ${y})`;
-        })
-        .text(d => {
-            switch (d) {
-                case 'Active':
-                    return "Active funds";
-                case 'ETF':
-                    return "Index funds";
-                case 'Bond':
-                    return "Fixed income";
-                case 'Index':
-                    return 'Indices';
-            }
-        });
+            });
 
-    // Legend items for funds
-    let g_legend_items = g_legends.selectAll(".legend-item")
-        .data(funds_info)
-        .join("g")
-        .attr("class", d => `legend-item-${d.name}`)
-        .classed("legend-item", true)
-        .style("cursor", "pointer")
-        // .attr("transform", (d, i) => {
-        //     let col = Math.floor(i / legends_per_col);
-        //     return `translate(${col * width_legend_col}, ${(i - col * legends_per_col) * height_legend})`;
-        .attr("transform", (d, i) => {
-            let col = fund_types.indexOf(d.type);
-            let row = funds_info[d.type].indexOf(d.name);
-            let y = 0;
-            if (d.type != 'Index') {
-                col = col - 1;
-                if (d.type == 'ETF') {
-                    y = 112;
-                }
-            }
-            return `translate(${col * width_legend_col}, ${row * height_legend_row + 24 + y})`;
-        }).each(function(d) {
-            this.enabled = false;
-            if (selected_funds.includes(d.name))
-                this.enabled = true;
-        });
+    // Collapsible header for fund companies
+    let legends_companies = legends_types
+        .selectAll("details")
+            .data(d => funds_grouped.get(d))
+            .join("details")
+            .property("open", true)
+            .style("padding", "0.4em 0em");
 
-    // Legend inllustration with color
-    let r = 6;
-    g_legend_items.append("circle")
-        .attr("r", r)
-        .attr("stroke-width", 1)
-        .attr("stroke", d => {
+    legends_companies
+        .append("summary")
+            .style("margin-left", "14px")
+            .style("list-style-position", "outside")
+        .append("span")
+            .style("font-weight", "bold")
+            .style("user-select", "none")
+            .text(d => d[0]);
+
+    // Legend item for funds
+    let legends_items = legends_companies
+        .selectAll("button")
+            .data(d => d[1])
+            .join("button")
+            .attr("id", d => `legend-${d.name}`)
+            .style("background", "none")
+            .style("color", "inherit")
+            .style("border", "1px solid #0000")
+            .style("border-radius", "8px")
+            .style("margin-left", "14px")
+            .style("padding", "1px 6px")
+            .style("font", "inherit")
+            .style("display", "flex")
+            .style("align-items", "center")
+            .on("mouseover", mouseover_legend)
+            .on("mouseleave", mouseleave_legend)
+            .on("focusout", mouseleave_legend)
+            .on("click", onclick_legend)
+            .each(function(d) {
+                if (selected_funds.includes(d.name))
+                    this.checked = true;
+            });
+
+    // Legend color marker
+    legends_items
+        .append("span")
+        .classed("legend-color", true)
+        .style("display", "inline-block")
+        .style("margin", "auto")
+        .style("width", `${w_legend_marker}em`)
+        .style("height", `${w_legend_marker}em`)
+        .style("border-width", "1px")
+        .style("border-style", "solid")
+        .style("border-radius", "3px")
+        .style("border-color", d => {
             let i = selected_funds.indexOf(d.name);
             return (i < 0) ? "currentColor" : colorScales(i);
         })
-        .attr("fill", d => {
+        .style("background-color", d => {
             let i = selected_funds.indexOf(d.name);
-            return (i < 0) ? "currentColor" : colorScales(i);
+            return (i < 0) ? "#0000" : colorScales(i);
         })
-        .attr("fill-opacity", d => {
+        .style("opacity", d => {
             let i = selected_funds.indexOf(d.name);
-            return (i < 0) ? 0 : 1;
+            return (i < 0) ? 0.1 : 1;
         });
 
-    // Legend text
-    g_legend_items.append("text")
-        .attr("font-family", font_sans_serif)
-        .attr("font-size", 13)
-        .attr("text-anchor", "left")
-        .attr("fill", "currentColor")
-        .style("user-select", "none")
-        .attr("x", r * 2)
-        .attr("y", r / 2 + 1)
+    // Legend text for fund names
+    legends_items
+        .append("span")
+        .classed("legend-text", true)
+        .style("margin", "auto 0 auto 5px")
         .text(d => d.name);
-
-    g_legend_items.append("title")
-        .text(d => d.company);
-
-    // Legend hover and click
-    g_legend_items.on("mouseover", mouseover_legend)
-        .on("mouseleave", mouseleave_legend)
-        .on("click", onclick_legend);
 
     function highlight_fund(fund) {
         let already_highlighted = core_chart.select(".core-chart-line-highlight").empty()
@@ -961,19 +950,15 @@ function draw_chart(data, dom_id, chart_name) {
             core_paths
                 // .transition()
                 // .duration(100)
-                .attr("stroke-opacity", 0.3);
+                .attr("stroke-opacity", 0.1);
             // d3.select(this).select("text")
             //     .attr("font-weight", "bold");
 
-            // Hightlight legend
-            let legend = g_legends.select(`.legend-item-${fund}`);
-            legend.select("circle")
-                // .transition()
-                // .duration(100)
-                .attr("r", r + 4)
-                .attr("fill-opacity", 1);
-            legend.select("text")
-                .attr("font-weight", "bold");
+            // Highlight legend
+            let legend = d3.select(`#legend-${fund}`);
+            legend.style("border-color", "currentColor")
+            legend.select(".legend-color")
+                .style("border-radius", "0");
 
             // Highlight tooltips
             let l = tooltips_content.select(`.tooltips-line-${fund}`);
@@ -993,15 +978,12 @@ function draw_chart(data, dom_id, chart_name) {
             // .transition()
             // .duration(100)
             .attr("stroke-opacity", core_paths_opacity);
-        let legend = g_legends.select(`.legend-item-${fund}`);
-        legend.select("circle")
-            // .transition()
-            // .duration(100)
-            .attr("r", r);
-        legend.select("text")
-            // .transition()
-            // .duration(100)
-            .attr("font-weight", "normal");
+
+        let legend = d3.select(`#legend-${fund}`);
+        legend.style("border-color", "#0000")
+        legend.select(".legend-color")
+            .style("border-radius", "3px");
+
         let l = tooltips_content.select(`.tooltips-line-${fund}`);
         l.select("text")
             .attr("font-weight", "normal")
@@ -1018,57 +1000,25 @@ function draw_chart(data, dom_id, chart_name) {
     }
 
     function onclick_legend(e, d) {
-        this.enabled = !this.enabled;
-        switch(chart_name) {
-        case "navps":
-            // if (this.enabled) {
-            //     d3.select(this).attr("opacity", 1);
-            //     g_lines.select(`.core-chart-${d}`)
-            //         .attr("opacity", 1);
-            // } else {
-            //     d3.select(this).attr("opacity", 0.2);
-            //     g_lines.select(`.core-chart-${d}`)
-            //         .attr("opacity", 0.1);
-            // }
-            if (this.enabled) {
-                selected_funds.push(d.name);
-                selected_funds = funds.filter(fund => selected_funds.includes(fund));
-            } else {
-                selected_funds = selected_funds.filter(fund => fund !== d.name);
-            }
-            localStorage.setItem('selected_funds', JSON.stringify(selected_funds));
-            data = data_orig.filter(d => {
-                for (const fund of selected_funds) {
-                    if (+d[fund] !== 0) {
-                        return true;
-                    }
-                }
-                return false;
-            })
-            data_selected_funds_all = data;
-            update(data, selected_funds);
-            break;
-        case "cr":
-            if (this.enabled) {
-                selected_funds.push(d.name);
-                selected_funds = funds.filter(fund => selected_funds.includes(fund));
-            } else {
-                selected_funds = selected_funds.filter(fund => fund !== d.name);
-            }
-            localStorage.setItem('selected_funds', JSON.stringify(selected_funds));
-            data = data_orig.filter(d => {
-                for (const fund of selected_funds) {
-                    if (+d[fund] === 0) {
-                        return false;
-                    }
-                }
-                return true;
-            })
-            data_selected_funds_all = data;
-            update(data, selected_funds);
-            break;
+        this.checked = !this.checked;
+        if (this.checked) {
+            selected_funds.push(d.name);
+            selected_funds = funds.filter(fund => selected_funds.includes(fund));
+        } else {
+            selected_funds = selected_funds.filter(fund => fund !== d.name);
         }
-        if (this.enabled) {
+        localStorage.setItem('selected_funds', JSON.stringify(selected_funds));
+        data = data_orig.filter(d => {
+            for (const fund of selected_funds) {
+                if (+d[fund] === 0) {
+                    return false;
+                }
+            }
+            return true;
+        })
+        data_selected_funds_all = data;
+        update(data, selected_funds);
+        if (this.checked) {
             mouseover_legend.call(this, e, d);
         } else {
             mouseleave_legend.call(this, e, d);
@@ -1228,18 +1178,18 @@ function draw_chart(data, dom_id, chart_name) {
     }
 
     function update_legends() {
-        g_legend_items.selectAll("circle")
-            .attr("stroke", d => {
+        legends_items.selectAll(".legend-color")
+            .style("border-color", d => {
                 let i = selected_funds.indexOf(d.name);
                 return (i < 0) ? "currentColor" : colorScales(i);
             })
-            .attr("fill", d => {
+            .style("background-color", d => {
                 let i = selected_funds.indexOf(d.name);
-                return (i < 0) ? "currentColor" : colorScales(i);
+                return (i < 0) ? "#0000" : colorScales(i);
             })
-            .attr("fill-opacity", d => {
+            .style("opacity", d => {
                 let i = selected_funds.indexOf(d.name);
-                return (i < 0) ? 0 : 1;
+                return (i < 0) ? 0.1 : 1;
             });
     }
 
