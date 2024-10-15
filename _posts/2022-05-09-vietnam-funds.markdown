@@ -17,6 +17,9 @@ tags: [d3.js, finance, data visualization, vietnam]
 .wide_chart {
     overflow-x: visible;
 }
+.content {
+    overflow-anchor: none;
+}
 </style>
 
 <!-- style>
