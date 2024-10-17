@@ -48,6 +48,7 @@ const funds_info = [
     { 'name': 'ENF',         'type': 'Active',     'company': 'Eastspring',      },
     { 'name': 'VNDAF',       'type': 'Active',     'company': 'IPAAM',           },
     { 'name': 'VNDBF',       'type': 'Bond',       'company': 'IPAAM',           },
+    { 'name': 'VNDCF',       'type': 'Bond',       'company': 'IPAAM',           },
     { 'name': 'MAFEQI',      'type': 'Active',     'company': 'Manulife IM',     },
     { 'name': 'MAFBAL',      'type': 'Active',     'company': 'Manulife IM',     },
     { 'name': 'MBVF',        'type': 'Active',     'company': 'MB Capital',      },
